@@ -7,6 +7,17 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env
 // Must be created manually in the Supabase dashboard (Storage tab) as a public bucket.
 export const CLIPBOARD_BUCKET = 'clipboard-uploads';
 
+export const isSupabaseConfigured = (): boolean => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  return Boolean(
+    url &&
+    url !== 'https://placeholder.supabase.co' &&
+    key &&
+    key !== 'placeholder'
+  );
+};
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   realtime: {
     params: {
