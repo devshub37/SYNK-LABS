@@ -54,12 +54,13 @@ export default function Landing() {
       </div>
 
       <div className="glass-panel p-6 sm:p-8 md:p-12 text-center max-w-lg w-full rounded-3xl z-10 animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
-        <div className="inline-flex p-3 sm:p-3.5 rounded-2xl bg-accent text-white shadow-sm mb-5">
-          <Copy className="w-6 h-6 md:w-7 md:h-7" />
+        <div className="flex flex-col items-center justify-center mb-4 sm:mb-5">
+          <img 
+            src="/logo.png" 
+            alt="SYNK LABS" 
+            className="w-40 sm:w-48 h-auto object-contain select-none"
+          />
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground mb-2">
-          SYNK
-        </h1>
         <p className="text-muted text-sm sm:text-base md:text-lg mb-6 leading-relaxed">
           Seamlessly sync your clipboard and files across devices in real time.
         </p>

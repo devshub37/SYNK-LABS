@@ -444,13 +444,22 @@ export default function Session() {
       <div className="absolute inset-0 bg-[radial-gradient(#E5DDD3_1px,transparent_1px)] [background-size:28px_28px] opacity-40 pointer-events-none -z-10"></div>
 
       <header className="glass-panel flex items-center justify-between px-3 py-3 sm:px-6 sm:py-3.5 sticky top-0 z-10 border-x-0 border-t-0 rounded-none bg-white/90 backdrop-blur-md border-b border-glass-border">
-        <button
-          className="bg-transparent border-none text-muted hover:text-foreground cursor-pointer p-1.5 sm:p-2 rounded-full transition-all hover:bg-accent-light flex items-center justify-center"
-          onClick={() => router.push('/')}
-          title="Back to Home"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            className="bg-transparent border-none text-muted hover:text-foreground cursor-pointer p-1.5 sm:p-2 rounded-full transition-all hover:bg-accent-light flex items-center justify-center"
+            onClick={() => router.push('/')}
+            title="Back to Home"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <img 
+            src="/logo-mark.png" 
+            alt="SYNK LABS" 
+            className="h-5 sm:h-6 w-auto object-contain cursor-pointer transition-opacity hover:opacity-80"
+            onClick={() => router.push('/')}
+            title="SYNK LABS Home"
+          />
+        </div>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
           <div 
@@ -544,8 +553,8 @@ export default function Session() {
 
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-1 text-center text-muted min-h-[40vh] pb-24">
-            <div className="w-16 h-16 rounded-2xl bg-accent-light border border-accent-border/60 text-accent flex items-center justify-center mb-4 shadow-xs">
-              <Copy className="w-7 h-7" />
+            <div className="w-16 h-12 sm:w-20 sm:h-14 flex items-center justify-center mb-3">
+              <img src="/logo-mark.png" alt="SYNK LABS" className="w-full h-full object-contain opacity-75" />
             </div>
             <h3 className="text-foreground text-xl md:text-2xl font-bold mb-1.5">
               {isLoadingFiles ? 'Loading session items...' : 'Waiting for clipboard items...'}

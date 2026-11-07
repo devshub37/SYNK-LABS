@@ -9,23 +9,23 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://synk-labs.vercel.app'),
-  title: 'SYNK',
-  description: 'Seamlessly sync your clipboard across devices in real-time.',
-  applicationName: 'SYNK',
+  title: 'SYNK LABS',
+  description: 'Seamlessly sync your clipboard and files across devices in real time.',
+  applicationName: 'SYNK LABS',
   appleWebApp: {
     capable: true,
-    title: 'SYNK',
+    title: 'SYNK LABS',
     statusBarStyle: 'black-translucent',
   },
   icons: {
-    icon: '/icons/icon-192x192.svg',
+    icon: '/icon.svg',
     apple: '/apple-touch-icon.svg',
   },
   openGraph: {
-    title: 'SYNK',
-    description: 'Seamlessly sync your clipboard across devices in real-time.',
+    title: 'SYNK LABS',
+    description: 'Seamlessly sync your clipboard and files across devices in real time.',
     url: 'https://synk-labs.vercel.app',
-    siteName: 'SYNK',
+    siteName: 'SYNK LABS',
     type: 'website',
   },
 }
