@@ -61,7 +61,7 @@ export default function Session() {
   useEffect(() => {
     if (!sessionId) return;
     try {
-      const cached = localStorage.getItem(`paste_labs_items_${sessionId}`);
+      const cached = localStorage.getItem(`synk_items_${sessionId}`) || localStorage.getItem(`paste_labs_items_${sessionId}`);
       if (cached) {
         const parsed: ItemType[] = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -77,7 +77,7 @@ export default function Session() {
   useEffect(() => {
     if (!sessionId || items.length === 0) return;
     try {
-      localStorage.setItem(`paste_labs_items_${sessionId}`, JSON.stringify(items));
+      localStorage.setItem(`synk_items_${sessionId}`, JSON.stringify(items));
     } catch (e) {
       console.warn('Failed to save to localStorage:', e);
     }
