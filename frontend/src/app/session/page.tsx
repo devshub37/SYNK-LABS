@@ -21,9 +21,12 @@ export default function Session() {
   const router = useRouter();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [items, setItems] = useState<ItemType[]>([]);
+  const itemsRef = useRef<ItemType[]>([]);
+  itemsRef.current = items;
   const [copiedId, setCopiedId] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isLoadingFiles, setIsLoadingFiles] = useState(true);
   const [activeUsersCount, setActiveUsersCount] = useState(1);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -54,6 +57,104 @@ export default function Session() {
     }
   }, [router]);
 
+  // Load cached items from localStorage as soon as sessionId is known
+  useEffect(() => {
+    if (!sessionId) return;
+    try {
+      const cached = localStorage.getItem(`paste_labs_items_${sessionId}`);
+      if (cached) {
+        const parsed: ItemType[] = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setItems(parsed);
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to read localStorage:', e);
+    }
+  }, [sessionId]);
+
+  // Persist items to localStorage for this session so refresh retains them
+  useEffect(() => {
+    if (!sessionId || items.length === 0) return;
+    try {
+      localStorage.setItem(`paste_labs_items_${sessionId}`, JSON.stringify(items));
+    } catch (e) {
+      console.warn('Failed to save to localStorage:', e);
+    }
+  }, [sessionId, items]);
+
+  const BROADCAST_PAYLOAD_LIMIT = 30 * 1024; // 30KB — Supabase Realtime hard limit is ~32KB
+
+  // Fetch uploaded files from Supabase Storage for this session
+  const loadStoredFiles = useCallback(async (sid: string) => {
+    setIsLoadingFiles(true);
+    try {
+      const { data: fileList, error } = await supabase.storage
+        .from(CLIPBOARD_BUCKET)
+        .list(sid, {
+          limit: 100,
+          sortBy: { column: 'created_at', order: 'desc' },
+        });
+
+      if (error) {
+        console.warn('Error fetching session files from Supabase Storage:', error);
+        return;
+      }
+
+      if (!fileList || fileList.length === 0) return;
+
+      const validFiles = fileList.filter(
+        (f) => f.name && !f.name.startsWith('.') && f.name !== '.emptyFolderPlaceholder'
+      );
+
+      const loadedItems: ItemType[] = validFiles.map((file) => {
+        const { data } = supabase.storage
+          .from(CLIPBOARD_BUCKET)
+          .getPublicUrl(`${sid}/${file.name}`);
+
+        const mimeType = file.metadata?.mimetype || '';
+        const isImg =
+          mimeType.startsWith('image/') ||
+          /\.(png|jpe?g|gif|webp|svg|bmp|ico|avif)$/i.test(file.name);
+
+        const match = file.name.match(/^\d+-[a-z0-9]+-(.+)$/i);
+        const originalName = match ? match[1] : file.name;
+
+        return {
+          id: file.id || file.name,
+          type: isImg ? 'image' : 'file',
+          content: data.publicUrl,
+          timestamp: file.created_at || new Date().toISOString(),
+          fileName: isImg ? undefined : originalName,
+        };
+      });
+
+      setItems((prev) => {
+        const existingUrls = new Set(prev.map((i) => i.content));
+        const existingIds = new Set(prev.map((i) => i.id));
+        const newItems = loadedItems.filter(
+          (item) => !existingUrls.has(item.content) && !existingIds.has(item.id)
+        );
+
+        if (newItems.length === 0) return prev;
+
+        return [...prev, ...newItems].sort(
+          (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
+      });
+    } catch (err) {
+      console.warn('Error loading files from storage:', err);
+    } finally {
+      setIsLoadingFiles(false);
+    }
+  }, []);
+
+  // Fetch files from Supabase storage whenever sessionId changes
+  useEffect(() => {
+    if (!sessionId) return;
+    void loadStoredFiles(sessionId);
+  }, [sessionId, loadStoredFiles]);
+
   // Subscribe to the realtime channel for this session.
   // The channel exists implicitly the moment any device subscribes to it.
   useEffect(() => {
@@ -71,9 +172,50 @@ export default function Session() {
       .on('broadcast', { event: 'clipboard' }, ({ payload }) => {
         const item = payload as ItemType;
         setItems((prev) => {
-          if (prev.some((i) => i.id === item.id)) return prev;
+          if (prev.some((i) => i.id === item.id || i.content === item.content)) return prev;
           return [item, ...prev];
         });
+      })
+      .on('broadcast', { event: 'request_history' }, () => {
+        if (itemsRef.current.length > 0) {
+          const payload = itemsRef.current;
+          const size = new TextEncoder().encode(JSON.stringify(payload)).length;
+          if (size <= BROADCAST_PAYLOAD_LIMIT) {
+            channel.send({
+              type: 'broadcast',
+              event: 'sync_history',
+              payload,
+            });
+          } else {
+            // If total items exceed broadcast limit, send recent items individually
+            itemsRef.current.slice(0, 20).forEach((item) => {
+              const itemSize = new TextEncoder().encode(JSON.stringify(item)).length;
+              if (itemSize <= BROADCAST_PAYLOAD_LIMIT) {
+                channel.send({
+                  type: 'broadcast',
+                  event: 'clipboard',
+                  payload: item,
+                });
+              }
+            });
+          }
+        }
+      })
+      .on('broadcast', { event: 'sync_history' }, ({ payload }) => {
+        const receivedItems = payload as ItemType[];
+        if (Array.isArray(receivedItems) && receivedItems.length > 0) {
+          setItems((prev) => {
+            const existingUrls = new Set(prev.map((i) => i.content));
+            const existingIds = new Set(prev.map((i) => i.id));
+            const toAdd = receivedItems.filter(
+              (i) => !existingUrls.has(i.content) && !existingIds.has(i.id)
+            );
+            if (toAdd.length === 0) return prev;
+            return [...toAdd, ...prev].sort(
+              (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+            );
+          });
+        }
       })
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState();
@@ -82,6 +224,11 @@ export default function Session() {
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
           await channel.track({ online_at: new Date().toISOString() });
+          channel.send({
+            type: 'broadcast',
+            event: 'request_history',
+            payload: {},
+          });
         }
       });
 
@@ -89,9 +236,7 @@ export default function Session() {
       supabase.removeChannel(channel);
       channelRef.current = null;
     };
-  }, [sessionId]);
-
-  const BROADCAST_PAYLOAD_LIMIT = 30 * 1024; // 30KB — Supabase Realtime hard limit is ~32KB
+  }, [sessionId, BROADCAST_PAYLOAD_LIMIT]);
 
   const broadcastItem = useCallback((newItem: ItemType) => {
     const payloadSize = new TextEncoder().encode(JSON.stringify(newItem)).length;
@@ -399,8 +544,14 @@ export default function Session() {
             <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/20 mb-6 relative animate-pulse-glow">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-accent rounded-full shadow-[0_0_15px_rgba(204,255,0,0.3)]"></div>
             </div>
-            <h3 className="text-white text-2xl mb-2">Waiting for clipboard items...</h3>
-            <p className="max-w-md">Press <kbd className="bg-white/10 px-2 py-1 rounded text-white text-sm mx-1">Ctrl+V</kbd> anywhere, or use the Paste box below.</p>
+            <h3 className="text-white text-2xl mb-2">
+              {isLoadingFiles ? 'Loading session items...' : 'Waiting for clipboard items...'}
+            </h3>
+            <p className="max-w-md">
+              {isLoadingFiles
+                ? 'Checking for uploaded files and history in this session...'
+                : 'Press Ctrl+V anywhere, or use the Paste box below.'}
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 pb-32 md:pb-28">
