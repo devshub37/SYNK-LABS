@@ -44,79 +44,88 @@ export default function Landing() {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen p-4 md:p-5 overflow-x-hidden w-full">
+    <div className="relative flex justify-center items-center min-h-screen p-4 md:p-6 overflow-x-hidden w-full bg-background selection:bg-accent/10">
+      {/* Subtle modern dot-grid backdrop */}
+      <div className="absolute inset-0 bg-[radial-gradient(#E5DDD3_1px,transparent_1px)] [background-size:28px_28px] opacity-60 pointer-events-none"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[350px] bg-[radial-gradient(ellipse_at_top,rgba(226,217,206,0.5)_0%,transparent_70%)] pointer-events-none"></div>
+
       <div className="absolute top-4 right-4 z-20">
         <GitHubDropdown />
       </div>
 
-      <div className="glass-panel p-5 sm:p-6 md:p-12 text-center max-w-lg w-full rounded-3xl animate-[slideUp_0.6s_cubic-bezier(0.16,1,0.3,1)] z-10">
-        <div className="inline-flex p-4 md:p-5 rounded-2xl bg-accent/10 border border-accent/20 mb-6">
-          <Zap className="text-accent w-10 h-10 md:w-12 md:h-12" />
+      <div className="glass-panel p-6 sm:p-8 md:p-12 text-center max-w-lg w-full rounded-3xl z-10 animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
+        <div className="inline-flex p-3 sm:p-3.5 rounded-2xl bg-accent text-white shadow-sm mb-5">
+          <Copy className="w-6 h-6 md:w-7 md:h-7" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-br from-white to-cyan-300 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground mb-2">
           SYNK
         </h1>
-        <p className="text-gray-400 text-base md:text-lg mb-6 leading-relaxed">
-          Seamlessly sync your clipboard across devices in real-time.
+        <p className="text-muted text-sm sm:text-base md:text-lg mb-6 leading-relaxed">
+          Seamlessly sync your clipboard and files across devices in real time.
         </p>
         
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs md:text-sm font-semibold tracking-wide border border-accent/20">
-            <Type className="w-4 h-4" /> Text
+        <div className="flex flex-wrap justify-center gap-2 mb-7">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-light text-foreground text-xs sm:text-sm font-medium border border-accent-border/60">
+            <Type className="w-3.5 h-3.5 text-accent" /> Text
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs md:text-sm font-semibold tracking-wide border border-accent/20">
-            <ImageIcon className="w-4 h-4" /> Images
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-light text-foreground text-xs sm:text-sm font-medium border border-accent-border/60">
+            <ImageIcon className="w-3.5 h-3.5 text-accent" /> Images
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs md:text-sm font-semibold tracking-wide border border-accent/20">
-            <File className="w-4 h-4" /> Files
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-light text-foreground text-xs sm:text-sm font-medium border border-accent-border/60">
+            <File className="w-3.5 h-3.5 text-accent" /> Files
           </div>
         </div>
 
-        <div className="bg-black/20 border border-glass-border rounded-xl p-4 mb-8 md:mb-10 text-sm md:text-base text-gray-300 text-left">
-          <p className="mb-2"><span className="text-accent font-semibold">1.</span> Create a new session or join an existing one.</p>
-          <p className="mb-2"><span className="text-accent font-semibold">2.</span> Open this website on any other device (like your phone).</p>
-          <p><span className="text-accent font-semibold">3.</span> Enter the 8-digit Session ID to instantly share your clipboard!</p>
+        <div className="bg-[#FAF7F3] border border-glass-border rounded-2xl p-4 md:p-5 mb-7 text-xs sm:text-sm text-foreground/80 text-left space-y-2.5">
+          <p className="flex items-start gap-2.5">
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">1</span>
+            <span>Create a new session or join an existing one.</span>
+          </p>
+          <p className="flex items-start gap-2.5">
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">2</span>
+            <span>Open this site on your other device (e.g. phone or tablet).</span>
+          </p>
+          <p className="flex items-start gap-2.5">
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">3</span>
+            <span>Enter the 8-digit Session ID to share instantly!</span>
+          </p>
         </div>
         
-        <div className="flex flex-col gap-4 md:gap-5">
+        <div className="flex flex-col gap-4">
           <button 
             onClick={handleCreate}
-            className="flex items-center justify-center gap-2 w-full p-4 rounded-xl font-medium bg-accent text-black shadow-[0_0_15px_rgba(0,240,255,0.25)] hover:bg-accent-hover active:scale-[0.98] transition-all"
+            className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl font-semibold bg-accent text-white shadow-sm hover:bg-accent-hover active:scale-[0.99] transition-all cursor-pointer"
           >
-            <Copy className="w-5 h-5" />
+            <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Create New Session</span>
           </button>
           
-          <div className="flex items-center text-gray-500 text-sm">
+          <div className="flex items-center text-muted/60 text-xs font-semibold uppercase tracking-wider">
             <div className="flex-1 border-b border-glass-border"></div>
-            <span className="px-4">OR</span>
+            <span className="px-3">OR</span>
             <div className="flex-1 border-b border-glass-border"></div>
           </div>
 
-          <form onSubmit={handleJoin} className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleJoin} className="flex flex-col sm:flex-row gap-2.5">
             <input 
               type="text" 
               placeholder="Enter 8-digit ID" 
               value={sessionId}
               onChange={(e) => setSessionId(e.target.value.replace(/[^0-9]/g, '').slice(0, 8))}
-              className="flex-1 bg-black/20 border border-glass-border rounded-xl px-4 py-3 text-white text-base md:text-lg outline-none transition-colors text-center tracking-widest focus:border-accent"
+              className="flex-1 bg-white border border-accent-border/80 focus:border-accent rounded-xl px-4 py-3 text-foreground placeholder-muted/50 text-base md:text-lg outline-none transition-colors text-center font-mono tracking-widest shadow-sm"
               maxLength={8}
             />
             <button 
               type="submit" 
               disabled={sessionId.length !== 8}
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium bg-glass border border-glass-border text-white hover:bg-white/10 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white border border-accent-border/80 hover:bg-accent-light hover:border-accent text-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm cursor-pointer"
             >
               <span>Join</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </form>
         </div>
       </div>
-      
-      {/* Background glow effects */}
-      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
-      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
     </div>
   );
 }

@@ -425,52 +425,56 @@ export default function Session() {
 
   return (
     <div 
-      className="min-h-screen flex flex-col relative overflow-x-hidden w-full"
+      className="min-h-screen flex flex-col relative overflow-x-hidden w-full bg-background"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       {/* Drag & Drop Overlay */}
       {isDragging && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center border-4 border-accent border-dashed m-4 rounded-3xl">
-          <div className="flex flex-col items-center pointer-events-none text-accent">
-            <Paperclip className="w-20 h-20 mb-4 animate-bounce" />
-            <h2 className="text-3xl font-bold text-white tracking-widest">DROP FILE TO SHARE</h2>
+        <div className="fixed inset-0 z-50 bg-accent/90 backdrop-blur-md flex items-center justify-center border-4 border-white/60 border-dashed m-4 rounded-3xl">
+          <div className="flex flex-col items-center pointer-events-none text-white">
+            <Paperclip className="w-16 h-16 mb-3 animate-bounce" />
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-wider">DROP FILE TO SHARE</h2>
           </div>
         </div>
       )}
 
-      <header className="glass-panel flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4 sticky top-0 z-10 border-x-0 border-t-0 rounded-none">
+      {/* Subtle modern dot-grid backdrop */}
+      <div className="absolute inset-0 bg-[radial-gradient(#E5DDD3_1px,transparent_1px)] [background-size:28px_28px] opacity-40 pointer-events-none -z-10"></div>
+
+      <header className="glass-panel flex items-center justify-between px-3 py-3 sm:px-6 sm:py-3.5 sticky top-0 z-10 border-x-0 border-t-0 rounded-none bg-white/90 backdrop-blur-md border-b border-glass-border">
         <button
-          className="bg-transparent border-none text-gray-400 cursor-pointer p-1.5 sm:p-2 rounded-full transition-all hover:bg-white/10 hover:text-white flex items-center justify-center"
+          className="bg-transparent border-none text-muted hover:text-foreground cursor-pointer p-1.5 sm:p-2 rounded-full transition-all hover:bg-accent-light flex items-center justify-center"
           onClick={() => router.push('/')}
+          title="Back to Home"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
           <div 
-            className="flex items-center gap-1 sm:gap-2 cursor-pointer py-1 px-1.5 sm:py-1.5 sm:px-3 rounded-lg transition-colors hover:bg-white/5"
+            className="flex items-center gap-1 sm:gap-2 cursor-pointer py-1 px-1.5 sm:py-1.5 sm:px-3 rounded-lg transition-colors hover:bg-accent-light"
             onClick={copySessionId}
             title="Click to copy Session ID"
           >
-            <span className="text-gray-400 text-sm hidden sm:inline">Session ID</span>
-            <div className="bg-accent/15 border border-accent/30 text-accent px-2 py-0.5 sm:px-3 sm:py-1 rounded-full font-mono text-sm sm:text-base md:text-lg tracking-wide flex items-center">
+            <span className="text-muted text-xs sm:text-sm hidden sm:inline font-medium">Session ID</span>
+            <div className="bg-accent-light border border-accent-border/70 text-foreground px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full font-mono text-sm sm:text-base md:text-lg font-semibold tracking-wide flex items-center shadow-xs">
               {sessionId}
               {copiedId ? (
-                <ShieldCheck className="w-3.5 h-3.5 text-green-400 ml-1.5 sm:ml-2" />
+                <ShieldCheck className="w-3.5 h-3.5 text-green-600 ml-1.5 sm:ml-2" />
               ) : (
-                <Copy className="w-3.5 h-3.5 ml-1.5 sm:ml-2 opacity-50" />
+                <Copy className="w-3.5 h-3.5 ml-1.5 sm:ml-2 text-muted" />
               )}
             </div>
           </div>
 
           <button
             onClick={() => setIsQRModalOpen(true)}
-            className="flex items-center gap-1 bg-accent/10 border border-accent/30 hover:bg-accent/20 text-accent px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+            className="flex items-center gap-1.5 bg-white border border-accent-border/80 hover:bg-accent-light text-foreground px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-xs"
             title="Show QR Code to share session"
           >
-            <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
             <span className="hidden sm:inline">QR Code</span>
           </button>
         </div>
@@ -478,13 +482,13 @@ export default function Session() {
         <div className="flex items-center gap-1.5 sm:gap-3">
           <GitHubDropdown />
 
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-black/40 border border-glass-border px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-full">
-            <div className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-green-500"></span>
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-white border border-accent-border/80 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-xs">
+            <div className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-600"></span>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-300 font-medium tracking-wide flex items-center gap-1 sm:gap-1.5">
-              <Activity className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-green-400" />
+            <span className="text-[10px] sm:text-xs text-foreground/80 font-medium tracking-wide flex items-center gap-1 sm:gap-1.5">
+              <Activity className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-green-600" />
               {activeUsersCount} <span className="hidden sm:inline">{activeUsersCount === 1 ? 'Device' : 'Devices'}</span>
             </span>
           </div>
@@ -501,32 +505,31 @@ export default function Session() {
       <main className="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col">
 
         {/* Universal Paste Button - Fixed to bottom */}
-        <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/90 via-black/80 to-transparent z-20 pointer-events-none">
+        <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-background via-background/95 to-transparent z-20 pointer-events-none">
           <div className="max-w-4xl mx-auto relative group pointer-events-auto">
-            <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-lg transition-opacity opacity-50 group-hover:opacity-100 active:opacity-100"></div>
             <div className="flex gap-3 relative">
               <button 
                 onClick={handlePasteButtonClick}
                 disabled={isUploading}
-                className="flex-1 glass-panel rounded-2xl p-4 md:p-6 text-center border border-accent/30 flex items-center justify-center min-h-[70px] md:min-h-[90px] transition-all hover:border-accent/60 focus:border-accent/80 focus:shadow-[0_0_20px_var(--tw-colors-accent)] bg-black/40 backdrop-blur-md active:scale-[0.98] cursor-pointer disabled:opacity-60"
+                className="flex-1 rounded-2xl p-4 md:p-5 text-center border border-accent flex items-center justify-center min-h-[68px] md:min-h-[82px] transition-all bg-accent hover:bg-accent-hover text-white shadow-md active:scale-[0.99] cursor-pointer disabled:opacity-60"
               >
-                <div className="flex flex-col items-center opacity-90">
-                  <div className="flex items-center gap-2 text-lg md:text-xl font-bold text-white tracking-wide">
-                    <Copy className="w-5 h-5 md:w-6 md:h-6" />
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-2 text-base md:text-lg font-bold tracking-wide">
+                    <Copy className="w-5 h-5" />
                     <span>{isUploading ? 'Uploading...' : 'Tap to Paste'}</span>
                   </div>
-                  <span className="text-xs md:text-sm text-gray-400 mt-1 hidden sm:inline-block">Instantly paste text or images from clipboard</span>
+                  <span className="text-xs text-white/70 mt-0.5 hidden sm:inline-block">Instantly paste text or images from clipboard</span>
                 </div>
               </button>
               
               <button 
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="w-[70px] md:w-[90px] shrink-0 glass-panel rounded-2xl border border-accent/30 flex flex-col items-center justify-center min-h-[70px] md:min-h-[90px] transition-all hover:border-accent/60 hover:bg-white/5 active:scale-[0.95] cursor-pointer bg-black/40 backdrop-blur-md text-gray-400 hover:text-white disabled:opacity-60"
+                className="w-[68px] md:w-[82px] shrink-0 bg-white border border-accent-border/80 hover:bg-accent-light rounded-2xl flex flex-col items-center justify-center min-h-[68px] md:min-h-[82px] transition-all shadow-sm active:scale-[0.96] cursor-pointer text-foreground disabled:opacity-60"
                 title="Upload PDF or File"
               >
-                <Paperclip className="w-6 h-6 md:w-7 md:h-7 mb-1" />
-                <span className="text-[10px] md:text-xs font-semibold uppercase">File</span>
+                <Paperclip className="w-5 h-5 md:w-6 md:h-6 mb-1 text-accent" />
+                <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-foreground/80">File</span>
               </button>
               <input 
                 type="file" 
@@ -540,17 +543,17 @@ export default function Session() {
         </div>
 
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center flex-1 text-center text-gray-400 min-h-[40vh] pb-24">
-            <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/20 mb-6 relative animate-pulse-glow">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-accent rounded-full shadow-[0_0_15px_rgba(0,240,255,0.35)]"></div>
+          <div className="flex flex-col items-center justify-center flex-1 text-center text-muted min-h-[40vh] pb-24">
+            <div className="w-16 h-16 rounded-2xl bg-accent-light border border-accent-border/60 text-accent flex items-center justify-center mb-4 shadow-xs">
+              <Copy className="w-7 h-7" />
             </div>
-            <h3 className="text-white text-2xl mb-2">
+            <h3 className="text-foreground text-xl md:text-2xl font-bold mb-1.5">
               {isLoadingFiles ? 'Loading session items...' : 'Waiting for clipboard items...'}
             </h3>
-            <p className="max-w-md">
+            <p className="max-w-md text-sm md:text-base text-muted">
               {isLoadingFiles
                 ? 'Checking for uploaded files and history in this session...'
-                : 'Press Ctrl+V anywhere, or use the Paste box below.'}
+                : 'Press Ctrl+V anywhere, or use the buttons below to paste or upload.'}
             </p>
           </div>
         ) : (
@@ -561,10 +564,6 @@ export default function Session() {
           </div>
         )}
       </main>
-
-      {/* Background glow effects */}
-      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
-      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
     </div>
   );
 }

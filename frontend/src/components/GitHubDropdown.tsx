@@ -34,8 +34,8 @@ export default function GitHubDropdown() {
       {/* Dropdown Toggle Button */}
       <button
         onClick={toggleDropdown}
-        className={`flex items-center gap-1 sm:gap-2 bg-black/40 border border-glass-border hover:border-accent/40 text-gray-300 hover:text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(0,240,255,0.08)] ${
-          isOpen ? 'border-accent/50 text-white bg-accent/10 shadow-[0_0_15px_rgba(0,240,255,0.2)]' : ''
+        className={`flex items-center gap-1.5 sm:gap-2 bg-white border border-accent-border/80 hover:bg-accent-light text-foreground px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-xs ${
+          isOpen ? 'border-accent bg-accent-light text-foreground' : ''
         }`}
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -48,7 +48,7 @@ export default function GitHubDropdown() {
       {/* Dropdown Menu */}
       {isOpen && (
         <div 
-          className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel bg-black/90 border border-accent/20 shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_30px_rgba(0,240,255,0.08)] overflow-hidden z-50 animate-[slideUp_0.2s_cubic-bezier(0.16,1,0.3,1)]"
+          className="absolute right-0 mt-2 w-56 rounded-2xl bg-white border border-glass-border shadow-xl overflow-hidden z-50 animate-[slideUp_0.2s_cubic-bezier(0.16,1,0.3,1)]"
           role="menu"
         >
           <div className="p-1.5 flex flex-col gap-1">
@@ -56,45 +56,45 @@ export default function GitHubDropdown() {
               href={repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm text-gray-300 hover:text-black hover:bg-accent font-medium transition-all group"
+              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm text-foreground hover:bg-accent-light hover:text-accent font-medium transition-all group"
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-2.5">
-                <Github className="w-4 h-4 text-accent group-hover:text-black transition-colors" />
+                <Github className="w-4 h-4 text-accent" />
                 <span>View Repository</span>
               </span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:text-black transition-all" />
+              <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-all" />
             </a>
 
             <a
               href={issueUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm text-gray-300 hover:text-black hover:bg-accent font-medium transition-all group"
+              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm text-foreground hover:bg-accent-light hover:text-accent font-medium transition-all group"
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-2.5">
-                <MessageSquare className="w-4 h-4 text-accent group-hover:text-black transition-colors" />
+                <MessageSquare className="w-4 h-4 text-accent" />
                 <span>Suggest & Report</span>
               </span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:text-black transition-all" />
+              <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-all" />
             </a>
 
             <a
               href={prUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm text-gray-300 hover:text-black hover:bg-accent font-medium transition-all group"
+              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm text-foreground hover:bg-accent-light hover:text-accent font-medium transition-all group"
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-2.5">
-                <GitPullRequest className="w-4 h-4 text-accent group-hover:text-black transition-colors" />
+                <GitPullRequest className="w-4 h-4 text-accent" />
                 <span>Create & View PR</span>
               </span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:text-black transition-all" />
+              <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-all" />
             </a>
           </div>
         </div>

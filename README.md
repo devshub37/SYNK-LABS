@@ -28,10 +28,10 @@ It takes less than 5 seconds to connect your devices:
 
 ## Design
 
-The UI features a stunning, custom-built Cyberpunk aesthetic with:
-- Deep dark cyber backgrounds
-- Vibrant electric cyan accents
-- Cyan floating glow animations
-- Smooth glassmorphism panels
+The UI features a clean, professional editorial aesthetic with:
+- Warm ivory and white canvas
+- Deep espresso brown typography and primary accents
+- Warm latte and subtle stone badge containers
+- Modern, refined minimalist cards and floating dock
 
 Enjoy the fastest way to move data between your screens!

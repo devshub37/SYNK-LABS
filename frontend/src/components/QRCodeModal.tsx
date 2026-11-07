@@ -64,38 +64,38 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]"
+      className="fixed inset-0 z-50 bg-[#1F1612]/60 backdrop-blur-xs flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]"
       onClick={onClose}
     >
       <div 
-        className="glass-panel p-5 sm:p-6 md:p-8 text-center max-w-sm w-full rounded-3xl border border-accent/20 bg-black/70 backdrop-blur-xl shadow-[0_0_50px_rgba(0,240,255,0.15)] relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
+        className="glass-panel p-6 sm:p-7 text-center max-w-sm w-full rounded-3xl bg-white border border-glass-border shadow-2xl relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-all cursor-pointer"
+          className="absolute top-4 right-4 text-muted hover:text-foreground p-1.5 rounded-full hover:bg-accent-light transition-all cursor-pointer"
           aria-label="Close QR Code Modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Title & Icon */}
-        <div className="inline-flex p-2.5 sm:p-3 rounded-2xl bg-accent/10 border border-accent/20 mb-2 sm:mb-3 text-accent">
-          <QrCode className="w-8 h-8" />
+        <div className="inline-flex p-3 rounded-2xl bg-accent-light border border-accent-border/50 mb-3 text-accent shadow-xs">
+          <QrCode className="w-7 h-7" />
         </div>
         
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-1">
+        <h3 className="text-xl font-bold text-foreground mb-1">
           Scan to Join
         </h3>
         
-        <p className="text-gray-400 text-xs md:text-sm mb-3 sm:mb-5 flex items-center justify-center gap-1.5">
+        <p className="text-muted text-xs sm:text-sm mb-4 flex items-center justify-center gap-1.5">
           <Smartphone className="w-4 h-4 text-accent" />
-          Point phone camera to join instantly
+          Point phone camera to join session
         </p>
 
         {/* QR Code Container */}
-        <div className="bg-white p-3 sm:p-4 rounded-2xl inline-block shadow-2xl mb-3 sm:mb-5 border-4 border-accent/30 relative group">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl inline-block shadow-sm mb-4 border border-glass-border relative group">
           {sessionUrl ? (
             <QRCodeSVG
               value={sessionUrl}
@@ -104,7 +104,7 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
               includeMargin={false}
             />
           ) : (
-            <div className="flex items-center justify-center text-gray-500 text-sm" style={{ width: qrSize, height: qrSize }}>
+            <div className="flex items-center justify-center text-muted text-sm" style={{ width: qrSize, height: qrSize }}>
               Generating...
             </div>
           )}
@@ -113,23 +113,23 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
         {/* Session Details & Copy Actions */}
         <div className="flex flex-col gap-2.5 w-full">
           {/* Session ID Pill */}
-          <div className="flex items-center justify-between bg-black/40 border border-glass-border px-3.5 py-2.5 rounded-xl">
+          <div className="flex items-center justify-between bg-[#FAF8F5] border border-glass-border px-3.5 py-2.5 rounded-xl">
             <div className="flex flex-col text-left">
-              <span className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Session ID</span>
-              <span className="text-white font-mono text-base font-bold tracking-widest">{sessionId}</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted font-medium">Session ID</span>
+              <span className="text-foreground font-mono text-base font-bold tracking-widest">{sessionId}</span>
             </div>
             <button
               onClick={copyCode}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-xs text-gray-200 transition-all border border-white/10 active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-accent-light text-xs font-semibold text-foreground transition-all border border-accent-border/70 shadow-2xs active:scale-95 cursor-pointer"
             >
               {copiedCode ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-green-400" />
-                  <span className="text-green-400 font-semibold">Copied</span>
+                  <Check className="w-3.5 h-3.5 text-green-600" />
+                  <span className="text-green-600 font-semibold">Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-3.5 h-3.5 text-muted" />
                   <span>Code</span>
                 </>
               )}
@@ -139,17 +139,17 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
           {/* Direct Link Copy Button */}
           <button
             onClick={copyLink}
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-medium bg-accent text-black hover:bg-accent-hover active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] text-sm"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-semibold bg-accent text-white hover:bg-accent-hover active:scale-[0.98] transition-all shadow-sm text-sm cursor-pointer"
           >
             {copiedLink ? (
               <>
                 <Check className="w-4 h-4" />
-                <span className="font-bold">Link Copied to Clipboard!</span>
+                <span>Link Copied!</span>
               </>
             ) : (
               <>
                 <ExternalLink className="w-4 h-4" />
-                <span className="font-semibold">Copy Direct Session Link</span>
+                <span>Copy Direct Link</span>
               </>
             )}
           </button>
