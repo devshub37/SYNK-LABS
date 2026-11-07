@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { supabase, CLIPBOARD_BUCKET } from '@/lib/supabase';
@@ -9,7 +9,9 @@ import ClipboardItem from '@/components/ClipboardItem';
 import QRCodeModal from '@/components/QRCodeModal';
 import GitHubDropdown from '@/components/GitHubDropdown';
 import ThemeToggle from '@/components/ThemeToggle';
+import SessionStorageBar from '@/components/SessionStorageBar';
 import { useTheme } from '@/context/ThemeContext';
+import { formatBytes, MAX_FILE_BYTES, MAX_SESSION_BYTES } from '@/lib/format';
 
 interface ItemType {
   id: string;
@@ -17,6 +19,7 @@ interface ItemType {
   content: string;
   timestamp: string;
   fileName?: string;
+  fileSize?: number;
 }
 
 export default function Session() {
@@ -34,6 +37,19 @@ export default function Session() {
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
+
+  // Calculate total shared size across all items in this session
+  const totalSessionBytes = useMemo(() => {
+    return items.reduce((acc, item) => {
+      if (typeof item.fileSize === 'number' && item.fileSize > 0) {
+        return acc + item.fileSize;
+      }
+      if (item.type === 'text') {
+        return acc + new Blob([item.content]).size;
+      }
+      return acc;
+    }, 0);
+  }, [items]);
 
   // Resolve session ID from URL parameter (e.g. /session?id=12345678) or sessionStorage
   useEffect(() => {
@@ -122,6 +138,8 @@ export default function Session() {
 
         const match = file.name.match(/^\d+-[a-z0-9]+-(.+)$/i);
         const originalName = match ? match[1] : file.name;
+        const rawSize = file.metadata?.size ?? file.metadata?.contentLength;
+        const fileSize = typeof rawSize === 'number' && rawSize > 0 ? rawSize : undefined;
 
         return {
           id: file.id || file.name,
@@ -129,19 +147,39 @@ export default function Session() {
           content: data.publicUrl,
           timestamp: file.created_at || new Date().toISOString(),
           fileName: isImg ? undefined : originalName,
+          fileSize,
         };
       });
 
       setItems((prev) => {
-        const existingUrls = new Set(prev.map((i) => i.content));
-        const existingIds = new Set(prev.map((i) => i.id));
+        // Map known file sizes to backfill existing items loaded from localStorage without fileSize
+        const sizeMap = new Map<string, number>();
+        loadedItems.forEach((li) => {
+          if (li.fileSize) {
+            sizeMap.set(li.content, li.fileSize);
+            sizeMap.set(li.id, li.fileSize);
+          }
+        });
+
+        const updatedPrev = prev.map((item) => {
+          if (!item.fileSize && (sizeMap.has(item.content) || sizeMap.has(item.id))) {
+            return {
+              ...item,
+              fileSize: sizeMap.get(item.content) || sizeMap.get(item.id),
+            };
+          }
+          return item;
+        });
+
+        const existingUrls = new Set(updatedPrev.map((i) => i.content));
+        const existingIds = new Set(updatedPrev.map((i) => i.id));
         const newItems = loadedItems.filter(
           (item) => !existingUrls.has(item.content) && !existingIds.has(item.id)
         );
 
-        if (newItems.length === 0) return prev;
+        if (newItems.length === 0) return updatedPrev;
 
-        return [...prev, ...newItems].sort(
+        return [...updatedPrev, ...newItems].sort(
           (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         );
       });
@@ -275,19 +313,41 @@ export default function Session() {
 
   const addTextItem = useCallback((text: string) => {
     if (!text.trim()) return;
+    const textBytes = new Blob([text]).size;
+    if (totalSessionBytes + textBytes > MAX_SESSION_BYTES) {
+      alert(`Cannot add text. This session has reached its 1 GB capacity limit (${formatBytes(totalSessionBytes)} / 1 GB used).`);
+      return;
+    }
     const newItem: ItemType = {
       id: Math.random().toString(36).substr(2, 9),
       type: 'text',
       content: text,
       timestamp: new Date().toISOString(),
+      fileSize: textBytes,
     };
     setItems((prev) => [newItem, ...prev]);
     broadcastItem(newItem);
-  }, [broadcastItem]);
+  }, [totalSessionBytes, broadcastItem]);
 
 
   const processFile = useCallback(async (file: File) => {
     if (!sessionId) return;
+
+    if (file.size > MAX_FILE_BYTES) {
+      alert(
+        `File "${file.name || 'selected'}" (${formatBytes(file.size)}) exceeds the maximum one-time upload limit of 50 MB.\n\nPlease select a file smaller than 50 MB.`
+      );
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    if (totalSessionBytes + file.size > MAX_SESSION_BYTES) {
+      alert(
+        `Cannot upload "${file.name || 'file'}" (${formatBytes(file.size)}). This session has reached its 1 GB capacity limit (${formatBytes(totalSessionBytes)} / 1 GB used).\n\nPlease start a new session or upload a smaller file.`
+      );
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
 
     setIsUploading(true);
     const isImage = file.type.startsWith('image/');
@@ -319,6 +379,7 @@ export default function Session() {
         content: contentUrl,
         timestamp: new Date().toISOString(),
         fileName: isImage ? undefined : (file.name || 'shared-file'),
+        fileSize: file.size,
       };
       setItems((prev) => [newItem, ...prev]);
       broadcastItem(newItem);
@@ -507,6 +568,9 @@ export default function Session() {
           </div>
         </div>
       </header>
+
+      {/* Progress Bar indicating size of total files being shared (1 GB maximum limit) */}
+      <SessionStorageBar totalBytes={totalSessionBytes} />
 
       {/* QR Code Modal */}
       <QRCodeModal

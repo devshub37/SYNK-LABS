@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Copy, Check, FileText, Image as ImageIcon, File, Download, Loader2 } from 'lucide-react';
+import { formatBytes } from '@/lib/format';
 
 interface ItemType {
   id: string;
@@ -9,6 +10,7 @@ interface ItemType {
   content: string;
   timestamp: string;
   fileName?: string;
+  fileSize?: number;
 }
 
 // Helper to convert any image URL or Data URI to a PNG Blob for ClipboardItem API
@@ -138,6 +140,9 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
         <div className="flex items-center gap-2 text-muted text-xs sm:text-sm font-medium">
           {item.type === 'text' ? <FileText className="w-4 h-4 text-accent" /> : item.type === 'image' ? <ImageIcon className="w-4 h-4 text-accent" /> : <File className="w-4 h-4 text-accent" />}
           <span>{timeString}</span>
+          {typeof item.fileSize === 'number' && item.fileSize > 0 && (
+            <span className="text-[11px] opacity-75 font-mono">({formatBytes(item.fileSize)})</span>
+          )}
         </div>
         <div className="flex items-center gap-1">
           {item.type === 'image' ? (
@@ -193,6 +198,11 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
             <p className="font-medium text-xs sm:text-sm text-foreground text-center break-all px-2 max-w-full">
               {item.fileName || 'file-download'}
             </p>
+            {typeof item.fileSize === 'number' && item.fileSize > 0 && (
+              <span className="text-[11px] text-muted font-mono mt-1">
+                {formatBytes(item.fileSize)}
+              </span>
+            )}
           </div>
         )}
         {item.type === 'text' && (
