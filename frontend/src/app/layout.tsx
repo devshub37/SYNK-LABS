@@ -8,12 +8,12 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: 'synk',
+  title: 'SYNK',
   description: 'Seamlessly sync your clipboard across devices in real-time.',
-  applicationName: 'synk',
+  applicationName: 'SYNK',
   appleWebApp: {
     capable: true,
-    title: 'synk',
+    title: 'SYNK',
     statusBarStyle: 'black-translucent',
   },
   icons: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.svg',
   },
   openGraph: {
-    title: 'synk',
+    title: 'SYNK',
     description: 'Seamlessly sync your clipboard across devices in real-time.',
     type: 'website',
   },

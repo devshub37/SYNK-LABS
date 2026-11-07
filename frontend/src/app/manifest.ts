@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'synk',
-    short_name: 'synk',
+    name: 'SYNK',
+    short_name: 'SYNK',
     description: 'Seamlessly sync your clipboard across devices in real-time.',
     start_url: '/',
     display: 'standalone',

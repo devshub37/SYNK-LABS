@@ -54,7 +54,7 @@ export default function Landing() {
           <Zap className="text-accent w-10 h-10 md:w-12 md:h-12" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-br from-white to-indigo-300 bg-clip-text text-transparent">
-          synk
+          SYNK
         </h1>
         <p className="text-gray-400 text-base md:text-lg mb-6 leading-relaxed">
           Seamlessly sync your clipboard across devices in real-time.
