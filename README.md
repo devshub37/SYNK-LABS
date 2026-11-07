@@ -28,10 +28,10 @@ It takes less than 5 seconds to connect your devices:
 
 ## Design
 
-The UI features a stunning, custom-built Cyberpunk/Synthwave aesthetic with:
-- Deep vibrant violet backgrounds
-- Neon yellow accents
-- Neon yellow floating glow animations
+The UI features a stunning, custom-built Cyberpunk aesthetic with:
+- Deep dark cyber backgrounds
+- Vibrant electric cyan accents
+- Cyan floating glow animations
 - Smooth glassmorphism panels
 
 Enjoy the fastest way to move data between your screens!

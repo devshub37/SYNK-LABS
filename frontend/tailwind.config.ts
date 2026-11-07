@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#090412', // Deep vibrant dark violet
+        background: '#040d16', // Deep vibrant dark cyan-tinted
         foreground: '#ffffff',
         accent: {
-          DEFAULT: '#ccff00', // Neon Yellow
-          hover: '#b2e600',
+          DEFAULT: '#00f0ff', // Vibrant Electric Cyan
+          hover: '#00cce0',
         },
         glass: {
           DEFAULT: 'rgba(255, 255, 255, 0.08)', // Brighter glass

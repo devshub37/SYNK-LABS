@@ -68,7 +68,7 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
       onClick={onClose}
     >
       <div 
-        className="glass-panel p-5 sm:p-6 md:p-8 text-center max-w-sm w-full rounded-3xl border border-accent/20 bg-black/70 backdrop-blur-xl shadow-[0_0_50px_rgba(204,255,0,0.1)] relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
+        className="glass-panel p-5 sm:p-6 md:p-8 text-center max-w-sm w-full rounded-3xl border border-accent/20 bg-black/70 backdrop-blur-xl shadow-[0_0_50px_rgba(0,240,255,0.15)] relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -139,7 +139,7 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
           {/* Direct Link Copy Button */}
           <button
             onClick={copyLink}
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-medium bg-accent text-black hover:bg-accent-hover active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(204,255,0,0.15)] text-sm"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-medium bg-accent text-black hover:bg-accent-hover active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] text-sm"
           >
             {copiedLink ? (
               <>

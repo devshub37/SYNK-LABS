@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Seamlessly sync your clipboard across devices in real-time.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#090412',
-    theme_color: '#090412',
+    background_color: '#040d16',
+    theme_color: '#040d16',
     orientation: 'portrait-primary',
     categories: ['productivity', 'utilities'],
     icons: [

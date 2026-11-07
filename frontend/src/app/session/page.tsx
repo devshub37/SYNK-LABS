@@ -467,7 +467,7 @@ export default function Session() {
 
           <button
             onClick={() => setIsQRModalOpen(true)}
-            className="flex items-center gap-1 bg-accent/10 border border-accent/30 hover:bg-accent/20 text-accent px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(204,255,0,0.15)]"
+            className="flex items-center gap-1 bg-accent/10 border border-accent/30 hover:bg-accent/20 text-accent px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(0,240,255,0.2)]"
             title="Show QR Code to share session"
           >
             <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -542,7 +542,7 @@ export default function Session() {
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-1 text-center text-gray-400 min-h-[40vh] pb-24">
             <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/20 mb-6 relative animate-pulse-glow">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-accent rounded-full shadow-[0_0_15px_rgba(204,255,0,0.3)]"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-accent rounded-full shadow-[0_0_15px_rgba(0,240,255,0.35)]"></div>
             </div>
             <h3 className="text-white text-2xl mb-2">
               {isLoadingFiles ? 'Loading session items...' : 'Waiting for clipboard items...'}
@@ -563,8 +563,8 @@ export default function Session() {
       </main>
 
       {/* Background glow effects */}
-      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(204,255,0,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
-      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(204,255,0,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
+      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
+      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
     </div>
   );
 }

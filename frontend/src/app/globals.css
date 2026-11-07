@@ -35,7 +35,7 @@
 }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.3); }
-  70% { box-shadow: 0 0 0 20px rgba(204, 255, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.3); }
+  70% { box-shadow: 0 0 0 20px rgba(0, 240, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
 }

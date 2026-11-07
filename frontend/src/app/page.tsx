@@ -53,7 +53,7 @@ export default function Landing() {
         <div className="inline-flex p-4 md:p-5 rounded-2xl bg-accent/10 border border-accent/20 mb-6">
           <Zap className="text-accent w-10 h-10 md:w-12 md:h-12" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-br from-white to-indigo-300 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-br from-white to-cyan-300 bg-clip-text text-transparent">
           SYNK
         </h1>
         <p className="text-gray-400 text-base md:text-lg mb-6 leading-relaxed">
@@ -81,7 +81,7 @@ export default function Landing() {
         <div className="flex flex-col gap-4 md:gap-5">
           <button 
             onClick={handleCreate}
-            className="flex items-center justify-center gap-2 w-full p-4 rounded-xl font-medium bg-accent text-black shadow-[0_0_15px_rgba(204,255,0,0.2)] hover:bg-accent-hover active:scale-[0.98] transition-all"
+            className="flex items-center justify-center gap-2 w-full p-4 rounded-xl font-medium bg-accent text-black shadow-[0_0_15px_rgba(0,240,255,0.25)] hover:bg-accent-hover active:scale-[0.98] transition-all"
           >
             <Copy className="w-5 h-5" />
             <span>Create New Session</span>
@@ -115,8 +115,8 @@ export default function Landing() {
       </div>
       
       {/* Background glow effects */}
-      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(204,255,0,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
-      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(204,255,0,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
+      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none"></div>
+      <div className="absolute bottom-[-50px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,240,255,0.15)_0%,transparent_70%)] rounded-full blur-[120px] opacity-40 animate-float pointer-events-none" style={{ animationDelay: '-5s' }}></div>
     </div>
   );
 }

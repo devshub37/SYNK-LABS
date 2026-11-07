@@ -34,8 +34,8 @@ export default function GitHubDropdown() {
       {/* Dropdown Toggle Button */}
       <button
         onClick={toggleDropdown}
-        className={`flex items-center gap-1 sm:gap-2 bg-black/40 border border-glass-border hover:border-accent/40 text-gray-300 hover:text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(204,255,0,0.05)] ${
-          isOpen ? 'border-accent/50 text-white bg-accent/10 shadow-[0_0_15px_rgba(204,255,0,0.15)]' : ''
+        className={`flex items-center gap-1 sm:gap-2 bg-black/40 border border-glass-border hover:border-accent/40 text-gray-300 hover:text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(0,240,255,0.08)] ${
+          isOpen ? 'border-accent/50 text-white bg-accent/10 shadow-[0_0_15px_rgba(0,240,255,0.2)]' : ''
         }`}
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -48,7 +48,7 @@ export default function GitHubDropdown() {
       {/* Dropdown Menu */}
       {isOpen && (
         <div 
-          className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel bg-black/90 border border-accent/20 shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_30px_rgba(204,255,0,0.05)] overflow-hidden z-50 animate-[slideUp_0.2s_cubic-bezier(0.16,1,0.3,1)]"
+          className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel bg-black/90 border border-accent/20 shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_30px_rgba(0,240,255,0.08)] overflow-hidden z-50 animate-[slideUp_0.2s_cubic-bezier(0.16,1,0.3,1)]"
           role="menu"
         >
           <div className="p-1.5 flex flex-col gap-1">
