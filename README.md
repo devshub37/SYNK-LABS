@@ -116,8 +116,8 @@ To run SYNK locally on your machine:
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/devshub37/paste-lab-extended_01.git
-cd paste-lab-extended_01
+git clone https://github.com/devshub37/SYNK-LABS.git
+cd SYNK-LABS
 ```
 
 ### 3. Install Dependencies
@@ -132,7 +132,7 @@ Create a `.env.local` file inside the `frontend/` directory:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-NEXT_PUBLIC_GITHUB_REPO_URL=https://github.com/devshub37/paste-lab-extended_01
+NEXT_PUBLIC_GITHUB_REPO_URL=https://github.com/devshub37/SYNK-LABS
 ```
 
 ### 5. Configure Supabase Storage Bucket

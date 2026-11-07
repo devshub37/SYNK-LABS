@@ -7,7 +7,7 @@ export default function GitHubDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const repoUrl = process.env.NEXT_PUBLIC_GITHUB_REPO_URL || 'https://github.com/devshub37/paste-lab-extended_01';
+  const repoUrl = process.env.NEXT_PUBLIC_GITHUB_REPO_URL || 'https://github.com/devshub37/SYNK-LABS';
   const issueUrl = `${repoUrl}/issues/new`;
   const prUrl = `${repoUrl}/pulls`;
 
