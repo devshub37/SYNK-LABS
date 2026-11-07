@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,22 +10,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#FAF8F5', // Warm ivory white
-        foreground: '#1F1612', // Deep espresso brown
-        surface: '#FFFFFF',    // Crisp white
+        background: 'rgb(var(--background-rgb) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground-rgb) / <alpha-value>)',
+        surface: 'rgb(var(--surface-rgb) / <alpha-value>)',
         accent: {
-          DEFAULT: '#2B1A13',  // Rich espresso brown
-          hover: '#3F271D',
-          light: '#F3EDE6',    // Warm latte pill badge
-          border: '#D9D0C5',   // Warm subtle border
+          DEFAULT: 'rgb(var(--accent-rgb) / <alpha-value>)',
+          hover: 'rgb(var(--accent-hover-rgb) / <alpha-value>)',
+          text: 'rgb(var(--accent-text-rgb) / <alpha-value>)',
+          light: 'rgb(var(--accent-light-rgb) / <alpha-value>)',
+          border: 'rgb(var(--accent-border-rgb) / <alpha-value>)',
         },
         muted: {
-          DEFAULT: '#6B5B53',  // Warm secondary text
-          light: '#9C8C83',
+          DEFAULT: 'rgb(var(--muted-rgb) / <alpha-value>)',
+          light: 'rgb(var(--muted-light-rgb) / <alpha-value>)',
         },
         glass: {
-          DEFAULT: 'rgba(255, 255, 255, 0.95)',
-          border: '#E8E1D7',
+          DEFAULT: 'rgb(var(--surface-rgb) / <alpha-value>)',
+          border: 'rgb(var(--border-rgb) / <alpha-value>)',
         }
       },
       fontFamily: {

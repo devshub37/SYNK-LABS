@@ -2,20 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background-rgb: 250 248 245;
+  --foreground-rgb: 31 22 18;
+  --surface-rgb: 255 255 255;
+  --card-header: #FAF8F5;
+  --accent-rgb: 43 26 19;
+  --accent-hover-rgb: 63 39 29;
+  --accent-text-rgb: 255 255 255;
+  --accent-light-rgb: 243 237 230;
+  --accent-border-rgb: 217 208 197;
+  --muted-rgb: 107 91 83;
+  --muted-light-rgb: 156 140 131;
+  --border-rgb: 232 225 215;
+  --subtle-box: #FAF7F3;
+  --dock-gradient-from: #FAF8F5;
+  --dot-color: #E5DDD3;
+  --ambient-top: rgba(226, 217, 206, 0.5);
+  --modal-backdrop: rgba(31, 22, 18, 0.6);
+  --accent-text: #FFFFFF;
+}
+
+.dark {
+  --background-rgb: 35 39 42;
+  --foreground-rgb: 225 210 192;
+  --surface-rgb: 46 51 55;
+  --card-header: #272B2F;
+  --accent-rgb: 225 210 192;
+  --accent-hover-rgb: 236 224 209;
+  --accent-text-rgb: 35 39 42;
+  --accent-light-rgb: 55 61 66;
+  --accent-border-rgb: 68 74 80;
+  --muted-rgb: 168 157 145;
+  --muted-light-rgb: 126 117 107;
+  --border-rgb: 58 64 69;
+  --subtle-box: #272B2F;
+  --dock-gradient-from: #23272A;
+  --dot-color: #383E43;
+  --ambient-top: rgba(46, 51, 55, 0.6);
+  --modal-backdrop: rgba(18, 20, 22, 0.75);
+  --accent-text: #23272A;
+}
+
 @layer base {
   html {
     overflow-x: hidden;
     max-width: 100vw;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden min-h-screen selection:bg-accent/15 selection:text-foreground antialiased;
+    @apply bg-background text-foreground overflow-x-hidden min-h-screen antialiased transition-colors duration-150;
     max-width: 100vw;
+  }
+  ::selection {
+    background-color: rgba(var(--accent-rgb), 0.2);
+    color: rgb(var(--foreground-rgb));
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-white border border-glass-border shadow-[0_4px_24px_rgba(31,22,18,0.06)];
+    @apply bg-surface border border-glass-border shadow-[0_4px_24px_rgba(31,22,18,0.06)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)];
   }
 }
 

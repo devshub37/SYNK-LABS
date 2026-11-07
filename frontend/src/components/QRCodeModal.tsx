@@ -64,11 +64,11 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-[#1F1612]/60 backdrop-blur-xs flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]"
+      className="fixed inset-0 z-50 bg-[var(--modal-backdrop)] backdrop-blur-xs flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]"
       onClick={onClose}
     >
       <div 
-        className="glass-panel p-6 sm:p-7 text-center max-w-sm w-full rounded-3xl bg-white border border-glass-border shadow-2xl relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
+        className="glass-panel p-6 sm:p-7 text-center max-w-sm w-full rounded-3xl bg-surface border border-glass-border shadow-2xl relative z-10 animate-[slideUp_0.3s_cubic-bezier(0.16,1,0.3,1)] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -113,14 +113,14 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
         {/* Session Details & Copy Actions */}
         <div className="flex flex-col gap-2.5 w-full">
           {/* Session ID Pill */}
-          <div className="flex items-center justify-between bg-[#FAF8F5] border border-glass-border px-3.5 py-2.5 rounded-xl">
+          <div className="flex items-center justify-between bg-background border border-glass-border px-3.5 py-2.5 rounded-xl">
             <div className="flex flex-col text-left">
               <span className="text-[10px] uppercase tracking-wider text-muted font-medium">Session ID</span>
               <span className="text-foreground font-mono text-base font-bold tracking-widest">{sessionId}</span>
             </div>
             <button
               onClick={copyCode}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-accent-light text-xs font-semibold text-foreground transition-all border border-accent-border/70 shadow-2xs active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-accent-light text-xs font-semibold text-foreground transition-all border border-glass-border shadow-2xs active:scale-95 cursor-pointer"
             >
               {copiedCode ? (
                 <>
@@ -139,7 +139,7 @@ export default function QRCodeModal({ isOpen, onClose, sessionId }: QRCodeModalP
           {/* Direct Link Copy Button */}
           <button
             onClick={copyLink}
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-semibold bg-accent text-white hover:bg-accent-hover active:scale-[0.98] transition-all shadow-sm text-sm cursor-pointer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-semibold bg-accent text-[var(--accent-text)] hover:bg-accent-hover active:scale-[0.98] transition-all shadow-sm text-sm cursor-pointer"
           >
             {copiedLink ? (
               <>

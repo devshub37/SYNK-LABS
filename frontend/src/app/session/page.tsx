@@ -8,6 +8,8 @@ import { ArrowLeft, Copy, ShieldCheck, Paperclip, Activity, QrCode } from 'lucid
 import ClipboardItem from '@/components/ClipboardItem';
 import QRCodeModal from '@/components/QRCodeModal';
 import GitHubDropdown from '@/components/GitHubDropdown';
+import ThemeToggle from '@/components/ThemeToggle';
+import { useTheme } from '@/context/ThemeContext';
 
 interface ItemType {
   id: string;
@@ -19,6 +21,7 @@ interface ItemType {
 
 export default function Session() {
   const router = useRouter();
+  const { theme } = useTheme();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [items, setItems] = useState<ItemType[]>([]);
   const itemsRef = useRef<ItemType[]>([]);
@@ -441,9 +444,9 @@ export default function Session() {
       )}
 
       {/* Subtle modern dot-grid backdrop */}
-      <div className="absolute inset-0 bg-[radial-gradient(#E5DDD3_1px,transparent_1px)] [background-size:28px_28px] opacity-40 pointer-events-none -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(var(--dot-color)_1px,transparent_1px)] [background-size:28px_28px] opacity-40 pointer-events-none -z-10"></div>
 
-      <header className="glass-panel flex items-center justify-between px-3 py-3 sm:px-6 sm:py-3.5 sticky top-0 z-10 border-x-0 border-t-0 rounded-none bg-white/90 backdrop-blur-md border-b border-glass-border">
+      <header className="glass-panel flex items-center justify-between px-3 py-3 sm:px-6 sm:py-3.5 sticky top-0 z-10 border-x-0 border-t-0 rounded-none bg-surface/90 backdrop-blur-md border-b border-glass-border">
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             className="bg-transparent border-none text-muted hover:text-foreground cursor-pointer p-1.5 sm:p-2 rounded-full transition-all hover:bg-accent-light flex items-center justify-center"
@@ -453,7 +456,7 @@ export default function Session() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <img 
-            src="/logo-mark.png" 
+            src={theme === 'dark' ? '/logo-mark-dark.png' : '/logo-mark.png'} 
             alt="SYNK LABS" 
             className="h-5 sm:h-6 w-auto object-contain cursor-pointer transition-opacity hover:opacity-80"
             onClick={() => router.push('/')}
@@ -480,7 +483,7 @@ export default function Session() {
 
           <button
             onClick={() => setIsQRModalOpen(true)}
-            className="flex items-center gap-1.5 bg-white border border-accent-border/80 hover:bg-accent-light text-foreground px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-xs"
+            className="flex items-center gap-1.5 bg-surface border border-accent-border/80 hover:bg-accent-light text-foreground px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 shadow-xs"
             title="Show QR Code to share session"
           >
             <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
@@ -488,10 +491,11 @@ export default function Session() {
           </button>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
+          <ThemeToggle />
           <GitHubDropdown />
 
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-white border border-accent-border/80 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-xs">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-surface border border-accent-border/80 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-xs">
             <div className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-600"></span>
@@ -520,21 +524,21 @@ export default function Session() {
               <button 
                 onClick={handlePasteButtonClick}
                 disabled={isUploading}
-                className="flex-1 rounded-2xl p-4 md:p-5 text-center border border-accent flex items-center justify-center min-h-[68px] md:min-h-[82px] transition-all bg-accent hover:bg-accent-hover text-white shadow-md active:scale-[0.99] cursor-pointer disabled:opacity-60"
+                className="flex-1 rounded-2xl p-4 md:p-5 text-center border border-accent flex items-center justify-center min-h-[68px] md:min-h-[82px] transition-all bg-accent hover:bg-accent-hover text-accent-text shadow-md active:scale-[0.99] cursor-pointer disabled:opacity-60"
               >
                 <div className="flex flex-col items-center">
                   <div className="flex items-center gap-2 text-base md:text-lg font-bold tracking-wide">
                     <Copy className="w-5 h-5" />
                     <span>{isUploading ? 'Uploading...' : 'Tap to Paste'}</span>
                   </div>
-                  <span className="text-xs text-white/70 mt-0.5 hidden sm:inline-block">Instantly paste text or images from clipboard</span>
+                  <span className="text-xs text-accent-text/75 mt-0.5 hidden sm:inline-block">Instantly paste text or images from clipboard</span>
                 </div>
               </button>
               
               <button 
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="w-[68px] md:w-[82px] shrink-0 bg-white border border-accent-border/80 hover:bg-accent-light rounded-2xl flex flex-col items-center justify-center min-h-[68px] md:min-h-[82px] transition-all shadow-sm active:scale-[0.96] cursor-pointer text-foreground disabled:opacity-60"
+                className="w-[68px] md:w-[82px] shrink-0 bg-surface border border-accent-border/80 hover:bg-accent-light rounded-2xl flex flex-col items-center justify-center min-h-[68px] md:min-h-[82px] transition-all shadow-sm active:scale-[0.96] cursor-pointer text-foreground disabled:opacity-60"
                 title="Upload PDF or File"
               >
                 <Paperclip className="w-5 h-5 md:w-6 md:h-6 mb-1 text-accent" />
@@ -554,7 +558,7 @@ export default function Session() {
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-1 text-center text-muted min-h-[40vh] pb-24">
             <div className="w-16 h-12 sm:w-20 sm:h-14 flex items-center justify-center mb-3">
-              <img src="/logo-mark.png" alt="SYNK LABS" className="w-full h-full object-contain opacity-75" />
+              <img src={theme === 'dark' ? '/logo-mark-dark.png' : '/logo-mark.png'} alt="SYNK LABS" className="w-full h-full object-contain opacity-75 transition-opacity" />
             </div>
             <h3 className="text-foreground text-xl md:text-2xl font-bold mb-1.5">
               {isLoadingFiles ? 'Loading session items...' : 'Waiting for clipboard items...'}

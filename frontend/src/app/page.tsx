@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Copy, ArrowRight, Zap, Type, Image as ImageIcon, File } from 'lucide-react';
+import { Copy, ArrowRight, Type, Image as ImageIcon, File } from 'lucide-react';
 import GitHubDropdown from '@/components/GitHubDropdown';
+import ThemeToggle from '@/components/ThemeToggle';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function Landing() {
   const [sessionId, setSessionId] = useState('');
   const router = useRouter();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -46,19 +49,20 @@ export default function Landing() {
   return (
     <div className="relative flex justify-center items-center min-h-screen p-4 md:p-6 overflow-x-hidden w-full bg-background selection:bg-accent/10">
       {/* Subtle modern dot-grid backdrop */}
-      <div className="absolute inset-0 bg-[radial-gradient(#E5DDD3_1px,transparent_1px)] [background-size:28px_28px] opacity-60 pointer-events-none"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[350px] bg-[radial-gradient(ellipse_at_top,rgba(226,217,206,0.5)_0%,transparent_70%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(var(--dot-color)_1px,transparent_1px)] [background-size:28px_28px] opacity-60 pointer-events-none"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[350px] bg-[radial-gradient(ellipse_at_top,var(--ambient-top)_0%,transparent_70%)] pointer-events-none"></div>
 
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <ThemeToggle />
         <GitHubDropdown />
       </div>
 
       <div className="glass-panel p-6 sm:p-8 md:p-12 text-center max-w-lg w-full rounded-3xl z-10 animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
         <div className="flex flex-col items-center justify-center mb-4 sm:mb-5">
           <img 
-            src="/logo.png" 
+            src={theme === 'dark' ? '/logo-dark.png' : '/logo.png'} 
             alt="SYNK LABS" 
-            className="w-40 sm:w-48 h-auto object-contain select-none"
+            className="w-40 sm:w-48 h-auto object-contain select-none transition-opacity duration-200"
           />
         </div>
         <p className="text-muted text-sm sm:text-base md:text-lg mb-6 leading-relaxed">
@@ -77,17 +81,17 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="bg-[#FAF7F3] border border-glass-border rounded-2xl p-4 md:p-5 mb-7 text-xs sm:text-sm text-foreground/80 text-left space-y-2.5">
+        <div className="bg-[var(--subtle-box)] border border-glass-border rounded-2xl p-4 md:p-5 mb-7 text-xs sm:text-sm text-foreground/80 text-left space-y-2.5">
           <p className="flex items-start gap-2.5">
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">1</span>
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-accent-text text-[11px] font-semibold flex items-center justify-center">1</span>
             <span>Create a new session or join an existing one.</span>
           </p>
           <p className="flex items-start gap-2.5">
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">2</span>
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-accent-text text-[11px] font-semibold flex items-center justify-center">2</span>
             <span>Open this site on your other device (e.g. phone or tablet).</span>
           </p>
           <p className="flex items-start gap-2.5">
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">3</span>
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-accent text-accent-text text-[11px] font-semibold flex items-center justify-center">3</span>
             <span>Enter the 8-digit Session ID to share instantly!</span>
           </p>
         </div>
@@ -95,7 +99,7 @@ export default function Landing() {
         <div className="flex flex-col gap-4">
           <button 
             onClick={handleCreate}
-            className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl font-semibold bg-accent text-white shadow-sm hover:bg-accent-hover active:scale-[0.99] transition-all cursor-pointer"
+            className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl font-semibold bg-accent text-accent-text shadow-sm hover:bg-accent-hover active:scale-[0.99] transition-all cursor-pointer"
           >
             <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Create New Session</span>
@@ -113,13 +117,13 @@ export default function Landing() {
               placeholder="Enter 8-digit ID" 
               value={sessionId}
               onChange={(e) => setSessionId(e.target.value.replace(/[^0-9]/g, '').slice(0, 8))}
-              className="flex-1 bg-white border border-accent-border/80 focus:border-accent rounded-xl px-4 py-3 text-foreground placeholder-muted/50 text-base md:text-lg outline-none transition-colors text-center font-mono tracking-widest shadow-sm"
+              className="flex-1 bg-surface border border-accent-border/80 focus:border-accent rounded-xl px-4 py-3 text-foreground placeholder-muted/50 text-base md:text-lg outline-none transition-colors text-center font-mono tracking-widest shadow-sm"
               maxLength={8}
             />
             <button 
               type="submit" 
               disabled={sessionId.length !== 8}
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white border border-accent-border/80 hover:bg-accent-light hover:border-accent text-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm cursor-pointer"
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-surface border border-accent-border/80 hover:bg-accent-light hover:border-accent text-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm cursor-pointer"
             >
               <span>Join</span>
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />

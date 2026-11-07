@@ -131,10 +131,10 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
 
   return (
     <div
-      className="glass-panel group rounded-2xl overflow-hidden flex flex-col relative transition-all duration-200 cursor-pointer animate-[fadeIn_0.3s_ease-out_forwards] md:hover:-translate-y-1 md:hover:shadow-md md:hover:border-accent-border/90 active:scale-[0.99] bg-white border border-glass-border"
+      className="glass-panel group rounded-2xl overflow-hidden flex flex-col relative transition-all duration-200 cursor-pointer animate-[fadeIn_0.3s_ease-out_forwards] md:hover:-translate-y-1 md:hover:shadow-md md:hover:border-accent-border/90 active:scale-[0.99] bg-surface border border-glass-border"
       onClick={handleCopy}
     >
-      <div className="flex justify-between items-center px-4 py-3 bg-[#FAF8F5] border-b border-glass-border">
+      <div className="flex justify-between items-center px-4 py-3 bg-[var(--card-header)] border-b border-glass-border">
         <div className="flex items-center gap-2 text-muted text-xs sm:text-sm font-medium">
           {item.type === 'text' ? <FileText className="w-4 h-4 text-accent" /> : item.type === 'image' ? <ImageIcon className="w-4 h-4 text-accent" /> : <File className="w-4 h-4 text-accent" />}
           <span>{timeString}</span>
@@ -176,7 +176,7 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
         </div>
       </div>
 
-      <div className="p-5 max-h-[250px] overflow-hidden relative bg-white flex-1">
+      <div className="p-5 max-h-[250px] overflow-hidden relative bg-surface flex-1">
         {item.type === 'text' ? (
           <p className="font-mono text-[0.92rem] text-foreground leading-relaxed whitespace-pre-wrap break-words">
             {item.content}
@@ -187,7 +187,7 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center min-h-[140px] p-4 rounded-xl bg-accent-light/60 border border-accent-border/40">
-            <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-accent shadow-xs mb-2.5">
+            <div className="w-12 h-12 rounded-xl bg-surface flex items-center justify-center text-accent shadow-xs mb-2.5">
               <File className="w-6 h-6" />
             </div>
             <p className="font-medium text-xs sm:text-sm text-foreground text-center break-all px-2 max-w-full">
@@ -196,15 +196,15 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
           </div>
         )}
         {item.type === 'text' && (
-          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[var(--surface)] to-transparent pointer-events-none"></div>
         )}
       </div>
 
       {item.type === 'image' ? (
-        <div className="hidden md:flex absolute inset-0 bg-[#1F1612]/75 items-center justify-center gap-3 opacity-0 transition-opacity duration-200 backdrop-blur-xs group-hover:opacity-100">
+        <div className="hidden md:flex absolute inset-0 bg-black/75 items-center justify-center gap-3 opacity-0 transition-opacity duration-200 backdrop-blur-xs group-hover:opacity-100">
           <button
             onClick={(e) => { e.stopPropagation(); handleCopy(); }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-white text-foreground hover:bg-accent-light active:scale-[0.97] transition-all shadow-md"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-surface text-foreground hover:bg-accent-light active:scale-[0.97] transition-all shadow-md"
           >
             {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? 'Copied!' : 'Copy Image'}</span>
@@ -212,22 +212,22 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
           <button
             onClick={(e) => { e.stopPropagation(); handleDownload(); }}
             disabled={isDownloading}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-accent text-white hover:bg-accent-hover active:scale-[0.97] transition-all shadow-md disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-accent text-accent-text hover:bg-accent-hover active:scale-[0.97] transition-all shadow-md disabled:opacity-50"
           >
-            {isDownloading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : <Download className="w-4 h-4" />}
+            {isDownloading ? <Loader2 className="w-4 h-4 animate-spin text-accent-text" /> : <Download className="w-4 h-4" />}
             <span>{isDownloading ? 'Downloading...' : 'Download'}</span>
           </button>
         </div>
       ) : (
         <div className="hidden md:flex absolute inset-0 bg-accent/90 items-center justify-center opacity-0 transition-opacity duration-200 backdrop-blur-xs group-hover:opacity-100">
-          <span className="font-semibold text-sm sm:text-base tracking-wide text-white">
+          <span className="font-semibold text-sm sm:text-base tracking-wide text-accent-text">
             {item.type === 'file' ? (isDownloading ? 'Downloading...' : 'Click to Download') : 'Click to Copy'}
           </span>
         </div>
       )}
 
       {item.type === 'image' ? (
-        <div className="md:hidden flex border-t border-glass-border divide-x divide-glass-border bg-[#FAF8F5]">
+        <div className="md:hidden flex border-t border-glass-border divide-x divide-glass-border bg-[var(--card-header)]">
           <button
             onClick={(e) => { e.stopPropagation(); handleCopy(); }}
             className="flex-1 py-2.5 text-center text-xs text-foreground font-semibold hover:bg-accent-light active:bg-accent-light transition-colors flex items-center justify-center gap-1.5"
@@ -245,7 +245,7 @@ export default function ClipboardItem({ item }: { item: ItemType }) {
           </button>
         </div>
       ) : (
-        <div className="md:hidden bg-[#FAF8F5] py-2 text-center border-t border-glass-border">
+        <div className="md:hidden bg-[var(--card-header)] py-2 text-center border-t border-glass-border">
           <span className="text-[11px] text-muted font-medium tracking-wide">
             {copied ? (item.type === 'file' ? 'Downloaded!' : 'Copied!') : (item.type === 'file' ? (isDownloading ? 'Downloading...' : 'Tap to Download') : 'Tap to Copy')}
           </span>
